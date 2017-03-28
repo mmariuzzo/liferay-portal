@@ -15,6 +15,7 @@
 package com.liferay.portal.workflow.rest.internal.model;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserConstants;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -26,25 +27,39 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Adam Brandizzi
  */
 @XmlRootElement
-public class WorkflowUserModel {
+public class WorkflowAssigneeModel {
 
-	public WorkflowUserModel() {
-		_name = null;
+	public static final String ASSIGNEE_ROLE = "role";
+
+	public static final String ASSIGNEE_USER = "user";
+
+	public WorkflowAssigneeModel() {
 		_portraitURL = null;
-		_userId = 0;
+		_roleId = null;
+		_roleName = null;
+		_userId = 0L;
+		_userName = null;
+		_type = null;
 	}
 
-	public WorkflowUserModel(User user) throws PortalException {
-		_name = user.getFullName();
+	public WorkflowAssigneeModel(Role role) throws PortalException {
+		_portraitURL = null;
+		_roleId = role.getRoleId();
+		_roleName = role.getName();
+		_userId = null;
+		_userName = null;
+		_type = ASSIGNEE_ROLE;
+	}
+
+	public WorkflowAssigneeModel(User user) throws PortalException {
 		_portraitURL = UserConstants.getPortraitURL(
 			PortalUtil.getPathImage(), user.isMale(), user.getPortraitId(),
 			user.getUserUuid());
+		_roleId = null;
+		_roleName = null;
 		_userId = user.getUserId();
-	}
-
-	@XmlElement
-	public String getName() {
-		return _name;
+		_userName = user.getFullName();
+		_type = ASSIGNEE_USER;
 	}
 
 	@XmlElement
@@ -52,13 +67,36 @@ public class WorkflowUserModel {
 		return _portraitURL;
 	}
 
-	@XmlElement(name = "id")
-	public long getUserId() {
+	@XmlElement
+	public Long getRoleId() {
+		return _roleId;
+	}
+
+	@XmlElement
+	public String getRoleName() {
+		return _roleName;
+	}
+
+	@XmlElement
+	public String getType() {
+		return _type;
+	}
+
+	@XmlElement
+	public Long getUserId() {
 		return _userId;
 	}
 
-	private final String _name;
+	@XmlElement
+	public String getUserName() {
+		return _userName;
+	}
+
 	private final String _portraitURL;
-	private final long _userId;
+	private final Long _roleId;
+	private final String _roleName;
+	private final String _type;
+	private final Long _userId;
+	private final String _userName;
 
 }

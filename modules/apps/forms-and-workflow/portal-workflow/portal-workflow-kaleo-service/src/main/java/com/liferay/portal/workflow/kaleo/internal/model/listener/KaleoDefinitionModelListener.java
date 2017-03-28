@@ -33,6 +33,25 @@ public class KaleoDefinitionModelListener
 	extends BaseModelListener<KaleoDefinition> {
 
 	@Override
+	public void onAfterCreate(KaleoDefinition kaleoDefinition)
+		throws ModelListenerException {
+
+		try {
+			Message message = new Message();
+
+			message.put("command", "create");
+			message.put("name", kaleoDefinition.getName());
+			message.put("serviceContext", getServiceContext(kaleoDefinition));
+			message.put("version", kaleoDefinition.getVersion());
+
+			MessageBusUtil.sendMessage("liferay/kaleo_definition", message);
+		}
+		catch (Exception e) {
+			throw new ModelListenerException(e);
+		}
+	}
+
+	@Override
 	public void onAfterRemove(KaleoDefinition kaleoDefinition)
 		throws ModelListenerException {
 

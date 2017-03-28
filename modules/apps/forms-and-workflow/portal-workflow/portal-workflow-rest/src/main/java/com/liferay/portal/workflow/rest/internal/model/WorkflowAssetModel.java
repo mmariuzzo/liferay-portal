@@ -34,9 +34,12 @@ public class WorkflowAssetModel {
 		_summary = null;
 		_title = null;
 		_url = null;
+		_workflowUserModel = null;
 	}
 
-	public WorkflowAssetModel(AssetEntry assetEntry, Locale locale)
+	public WorkflowAssetModel(
+			AssetEntry assetEntry, Locale locale,
+			WorkflowUserModel workflowUserModel)
 		throws PortalException {
 
 		_className = assetEntry.getClassName();
@@ -44,6 +47,7 @@ public class WorkflowAssetModel {
 		_summary = assetEntry.getSummary(locale);
 		_title = assetEntry.getTitle(locale);
 		_url = assetEntry.getUrl();
+		_workflowUserModel = workflowUserModel;
 	}
 
 	@XmlElement
@@ -71,10 +75,16 @@ public class WorkflowAssetModel {
 		return _url;
 	}
 
+	@XmlElement
+	public WorkflowUserModel getWorkflowUserModel() {
+		return _workflowUserModel;
+	}
+
 	private final String _className;
 	private final long _classPK;
 	private final String _summary;
 	private final String _title;
 	private final String _url;
+	private final WorkflowUserModel _workflowUserModel;
 
 }
