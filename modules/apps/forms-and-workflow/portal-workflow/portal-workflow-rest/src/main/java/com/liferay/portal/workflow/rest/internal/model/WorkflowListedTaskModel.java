@@ -17,7 +17,6 @@ package com.liferay.portal.workflow.rest.internal.model;
 import com.liferay.portal.kernel.workflow.WorkflowTask;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,32 +25,27 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Adam Brandizzi
  */
 @XmlRootElement
-public class WorkflowTaskModel {
+public class WorkflowListedTaskModel {
 
-	public WorkflowTaskModel() {
+	public WorkflowListedTaskModel() {
 		_description = null;
 		_dueDate = null;
 		_name = null;
 		_state = null;
-		_transitions = null;
-		_workflowAssetModel = null;
 		_workflowTaskId = 0;
 		_workflowUserModel = null;
 	}
 
-	public WorkflowTaskModel(
+	public WorkflowListedTaskModel(
 		WorkflowTask workflowTask, WorkflowUserModel workflowUserModel,
-		WorkflowAssetModel workflowAssetModel, String state,
-		List<String> transitions) {
+		String state) {
 
 		_workflowUserModel = workflowUserModel;
-		_workflowAssetModel = workflowAssetModel;
 
 		_description = workflowTask.getDescription();
 		_dueDate = workflowTask.getDueDate();
 		_name = workflowTask.getName();
 		_state = state;
-		_transitions = transitions;
 		_workflowTaskId = workflowTask.getWorkflowTaskId();
 	}
 
@@ -76,16 +70,6 @@ public class WorkflowTaskModel {
 	}
 
 	@XmlElement
-	public List<String> getTransitions() {
-		return _transitions;
-	}
-
-	@XmlElement
-	public WorkflowAssetModel getWorkflowAssetModel() {
-		return _workflowAssetModel;
-	}
-
-	@XmlElement
 	public long getWorkflowTaskId() {
 		return _workflowTaskId;
 	}
@@ -99,8 +83,6 @@ public class WorkflowTaskModel {
 	private final Date _dueDate;
 	private final String _name;
 	private final String _state;
-	private final List<String> _transitions;
-	private final WorkflowAssetModel _workflowAssetModel;
 	private final long _workflowTaskId;
 	private final WorkflowUserModel _workflowUserModel;
 

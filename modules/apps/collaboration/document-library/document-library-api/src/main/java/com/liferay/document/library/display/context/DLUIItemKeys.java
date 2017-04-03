@@ -16,7 +16,6 @@ package com.liferay.document.library.display.context;
 
 /**
  * @author Iván Zaera
- * @author Mauro Mariuzzo
  */
 public class DLUIItemKeys {
 
@@ -29,14 +28,8 @@ public class DLUIItemKeys {
 	public static final String CHECKOUT =
 		DLUIItemKeys.class.getName() + "#checkout";
 
-	public static final String COMPARE_TO =
-		DLUIItemKeys.class.getName() + "#compare-to";
-
 	public static final String DELETE =
 		DLUIItemKeys.class.getName() + "#delete";
-
-	public static final String DELETE_VERSION =
-		DLUIItemKeys.class.getName() + "#delete-version";
 
 	public static final String DOWNLOAD =
 		DLUIItemKeys.class.getName() + "#download";
@@ -54,13 +47,7 @@ public class DLUIItemKeys {
 	public static final String PERMISSIONS =
 		DLUIItemKeys.class.getName() + "#permissions";
 
-	public static final String REVERT =
-		DLUIItemKeys.class.getName() + "#revert";
-
 	public static final String VIEW_ORIGINAL_FILE =
 		DLUIItemKeys.class.getName() + "#view-original-file";
-
-	public static final String VIEW_VERSION =
-		DLUIItemKeys.class.getName() + "#view-version";
 
 }
