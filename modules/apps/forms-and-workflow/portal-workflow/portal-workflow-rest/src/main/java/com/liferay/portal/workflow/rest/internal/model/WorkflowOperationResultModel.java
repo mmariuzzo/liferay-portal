@@ -28,31 +28,15 @@ public class WorkflowOperationResultModel {
 	public static final String STATUS_SUCCESS = "success";
 
 	public WorkflowOperationResultModel() {
-		_status = null;
-		_message = null;
-		_workflowTaskModel = null;
 	}
 
 	public WorkflowOperationResultModel(String status) {
-		this(status, null, null);
+		this(status, null);
 	}
 
 	public WorkflowOperationResultModel(String status, String message) {
-		this(status, message, null);
-	}
-
-	public WorkflowOperationResultModel(
-		String status, String message, WorkflowTaskModel workflowTaskModel) {
-
 		_status = status;
 		_message = message;
-		_workflowTaskModel = workflowTaskModel;
-	}
-
-	public WorkflowOperationResultModel(
-		String status, WorkflowTaskModel workflowTaskModel) {
-
-		this(status, null, workflowTaskModel);
 	}
 
 	@XmlElement
@@ -65,13 +49,15 @@ public class WorkflowOperationResultModel {
 		return _status;
 	}
 
-	@XmlElement(name = "task")
-	public WorkflowTaskModel getWorkflowTaskModel() {
-		return _workflowTaskModel;
+	public void setMessage(String message) {
+		_message = message;
 	}
 
-	private final String _message;
-	private final String _status;
-	private final WorkflowTaskModel _workflowTaskModel;
+	public void setStatus(String status) {
+		_status = status;
+	}
+
+	private String _message;
+	private String _status;
 
 }

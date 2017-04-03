@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.workflow.WorkflowException;
-import com.liferay.portal.kernel.workflow.WorkflowTask;
 import com.liferay.portal.workflow.rest.internal.helper.WorkflowHelper;
 import com.liferay.portal.workflow.rest.internal.model.WorkflowOperationResultModel;
 import com.liferay.portal.workflow.rest.internal.model.WorkflowTaskModel;
@@ -46,29 +45,6 @@ import org.osgi.service.component.annotations.Reference;
 @Path("/task")
 public class WorkflowTaskResource {
 
-	@Path("/{workflowTaskId}/assign-to-me")
-	@POST
-	@Produces("application/json")
-	public WorkflowOperationResultModel assignToMe(
-		@Context Company company, @Context User user,
-		@Context HttpServletResponse response, @Context Locale locale,
-		@PathParam("workflowTaskId") long workflowTaskId) {
-
-		try {
-			long companyId = company.getCompanyId();
-			long userId = user.getUserId();
-
-			WorkflowTask workflowTask = _workflowHelper.assignWorkflowTask(
-				companyId, userId, workflowTaskId);
-
-			return getSuccessWorkflowOperationResultModel(
-				locale, companyId, userId, workflowTask);
-		}
-		catch (PortalException pe) {
-			return getFailureWorkflowOperationResultModel(response, pe);
-		}
-	}
-
 	@GET
 	@Path("/{workflowTaskId}")
 	@Produces("application/json")
@@ -83,26 +59,22 @@ public class WorkflowTaskResource {
 	}
 
 	@Consumes("application/json")
-	@Path("/{workflowTaskId}/transition")
+	@Path("/{workflowTaskId}")
 	@POST
 	@Produces("application/json")
-	public WorkflowOperationResultModel transition(
+	public WorkflowOperationResultModel updateStatus(
 		@Context Company company, @Context User user,
-		@Context HttpServletResponse response, @Context Locale locale,
+		@Context HttpServletResponse response,
 		@PathParam("workflowTaskId") long workflowTaskId,
 		WorkflowTaskTransitionOperationModel
 			workflowTaskTransitionOperationModel) {
 
 		try {
-			long companyId = company.getCompanyId();
-			long userId = user.getUserId();
-
-			WorkflowTask workflowTask = _workflowHelper.completeWorkflowTask(
-				companyId, userId, workflowTaskId,
+			_workflowHelper.completeWorkflowTask(
+				company.getCompanyId(), user.getUserId(), workflowTaskId,
 				workflowTaskTransitionOperationModel);
 
-			return getSuccessWorkflowOperationResultModel(
-				locale, companyId, userId, workflowTask);
+			return getSuccessWorkflowOperationResultModel();
 		}
 		catch (PortalException pe) {
 			return getFailureWorkflowOperationResultModel(response, pe);
@@ -125,17 +97,10 @@ public class WorkflowTaskResource {
 	}
 
 	protected WorkflowOperationResultModel
-			getSuccessWorkflowOperationResultModel(
-				Locale locale, long companyId, long userId,
-				WorkflowTask workflowTask)
-		throws PortalException {
-
-		WorkflowTaskModel workflowTaskModel =
-			_workflowHelper.getWorkflowTaskModel(
-				companyId, userId, workflowTask.getWorkflowTaskId(), locale);
+		getSuccessWorkflowOperationResultModel() {
 
 		return new WorkflowOperationResultModel(
-			WorkflowOperationResultModel.STATUS_SUCCESS, workflowTaskModel);
+			WorkflowOperationResultModel.STATUS_SUCCESS);
 	}
 
 	@Reference
